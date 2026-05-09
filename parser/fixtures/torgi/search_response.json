@@ -1,0 +1,756 @@
+{
+  "content": [
+    {
+      "id": "22000042300000000140_1",
+      "noticeNumber": "22000042300000000140",
+      "lotNumber": 1,
+      "lotStatus": "PUBLISHED",
+      "biddType": {
+        "code": "1041PP",
+        "name": "Реализация имущества, обращенного в собственность государства, и иного изъятого имущества"
+      },
+      "biddForm": {
+        "code": "EA",
+        "name": "Электронный аукцион"
+      },
+      "lotName": "Автомобиль БМВ, г/н А272ЕН193, цвет серый металлик, VIN (WBANA51080B037281). Документы и ключи отсутствуют.",
+      "lotDescription": "Автомобиль БМВ, г/н А272ЕН193, цвет серый металлик, VIN (WBANA51080B037281). Документы и ключи отсутствуют.",
+      "priceMin": 208763.73,
+      "priceMinExact": "208763.73",
+      "biddEndTime": "2026-05-24T06:00:00.000+00:00",
+      "lotImages": [
+        "69ebb2c20d10730df2ee12b0",
+        "69ebb2c2749fbd67d13c3e65",
+        "69ebb2c30d10730df2ee12b4"
+      ],
+      "lotVideos": [],
+      "characteristics": [
+        {
+          "name": "Пробег",
+          "code": "mileage",
+          "unit": {
+            "code": "008",
+            "name": "Километр; тысяча метров",
+            "symbol": "км"
+          },
+          "type": "Int"
+        },
+        {
+          "characteristicValue": "легковой автомобиль",
+          "name": "Вид транспорта",
+          "code": "typeCar",
+          "type": "Text(100)"
+        },
+        {
+          "name": "Объем двигателя",
+          "code": "engineCapacity",
+          "type": "Text(100)"
+        },
+        {
+          "characteristicValue": "-",
+          "name": "Год выпуска",
+          "code": "yearProduction",
+          "type": "Text(20)"
+        },
+        {
+          "name": "Коробка передач",
+          "code": "transmission",
+          "type": "Text(100)"
+        },
+        {
+          "name": "Привод",
+          "code": "drive",
+          "type": "Text(100)"
+        },
+        {
+          "characteristicValue": "А272ЕН193",
+          "name": "Государственный регистрационный знак",
+          "code": "regNumber",
+          "type": "Text(20)"
+        },
+        {
+          "name": "Мощность двигателя",
+          "code": "enginePower",
+          "type": "Text(100)"
+        },
+        {
+          "characteristicValue": "WBANA51080B037281",
+          "name": "VIN номер",
+          "code": "vin",
+          "type": "Text(100)"
+        },
+        {
+          "name": "Экологический класс",
+          "code": "environmentalClass",
+          "type": "Text(100)"
+        },
+        {
+          "name": "Дата государственного регистрационного знака",
+          "code": "dateRegNumber",
+          "type": "Date"
+        },
+        {
+          "characteristicValue": "БМВ",
+          "name": "Марка",
+          "code": "carMarka",
+          "type": "Text(100)"
+        },
+        {
+          "characteristicValue": "БМВ",
+          "name": "Модель",
+          "code": "carModel",
+          "type": "Text(100)"
+        },
+        {
+          "characteristicValue": {
+            "code": "pryamie",
+            "name": "Прямое",
+            "actual": false
+          },
+          "name": "Назначение",
+          "code": "generalPurpose",
+          "type": "Select"
+        }
+      ],
+      "currencyCode": "643",
+      "etpCode": "ETP_SBAST",
+      "subjectRFCode": "23",
+      "category": {
+        "code": "100001",
+        "name": "Легковые автомобили"
+      },
+      "createDate": "2026-04-24T18:16:05.718+00:00",
+      "timeZoneName": "МСК",
+      "timezoneOffset": "180",
+      "hasAppeals": false,
+      "isStopped": false,
+      "attributes": [
+        {
+          "code": "Lot.DA_typeProperty_EA1041",
+          "fullName": "Вид имущества",
+          "value": {
+            "code": "DA_typeProperty_EA1041_Select_1",
+            "name": "Имущество, обращенное в федеральную собственность"
+          },
+          "attributeType": "Select",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 551
+        },
+        {
+          "code": "Lot.DA_acquaintanceProperty_EA1041",
+          "fullName": "Сроки и время ознакомления покупателя с имуществом",
+          "value": "Осмотр имущества осуществляется в рабочие дни с 10:00 ч. до 17:00 ч. (время московское) по предварительному согласованию с лицом, ответственным за обеспечение доступа к осмотру имущества, не менее чем за три рабочих дня до предполагаемой даты осмотра, путем направления заявки на осмотр по форме указанной в информационном извещении на электронный адрес info@spektr-ug.ru\nЛицо, ответственное за обеспечение доступа к осмотру имущества: Рыжак Игорь Владимирович, тел: 89184341058.\nОсмотр имущества осуществляется без взимания платы.\n",
+          "attributeType": "Text(1000)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 553
+        },
+        {
+          "code": "Lot.DA_concludingContract_EA1041",
+          "fullName": "Срок заключения договора купли-продажи",
+          "value": "По результатам проведенного аукциона в электронной форме Организатор аукциона (продавец) и победитель аукциона (покупатель) не ранее 10 рабочих дней и не позднее 15 рабочих дней со дня подведения итогов аукциона заключают договор купли-продажи имущества в электронной форме.",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 554
+        },
+        {
+          "code": "DA_contractType_EA1041",
+          "fullName": "Вид договора",
+          "value": {
+            "code": "1",
+            "name": "Договор купли-продажи"
+          },
+          "attributeType": "Select",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 554
+        },
+        {
+          "code": "Lot.DA_depositRules_EA1041",
+          "fullName": "Порядок внесения задатка",
+          "value": "Задаток за участие в аукционе должен поступить на специальный счет, открытый потенциальным покупателем в одном из банков, перечень которых устанавливается Правительством Российской Федерации о контрактной системе закупок товаров, работ, услуг для обеспечения государственных и муниципальных нужд. \n Задаток должен поступить не позднее даты окончания приема заявок.\n",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL255",
+            "name": "5.4.2 Лот_информация_о_задатке_дин",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 492
+        },
+        {
+          "code": "Lot.DA_retender_EA1041",
+          "fullName": "Информационное сообщение является повторным в соответствии с п.18 ПП РФ 1041",
+          "value": true,
+          "attributeType": "Checker",
+          "group": {
+            "code": "NL255",
+            "name": "5.4.2 Лот_информация_о_задатке_дин",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 493
+        },
+        {
+          "code": "Lot.DA_discountSize_EA1041",
+          "fullName": "Размер снижения начальной цены",
+          "value": {
+            "code": "DA_discountSize_EA1041_Select_2",
+            "name": "60%"
+          },
+          "attributeType": "Select",
+          "group": {
+            "code": "NL255",
+            "name": "5.4.2 Лот_информация_о_задатке_дин",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 494
+        },
+        {
+          "code": "Lot.DA_discountRule_EA1041",
+          "fullName": "Периодичность снижения начальной цены",
+          "value": "10 рабочих дней",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL255",
+            "name": "5.4.2 Лот_информация_о_задатке_дин",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 495
+        }
+      ],
+      "isAnnulled": false,
+      "noticeFirstVersionPublicationDate": "2026-04-24T18:35:00.789Z",
+      "lotVat": {
+        "code": "includedVAT",
+        "name": "С учетом НДС"
+      },
+      "npaHintCode": "hint1_1041PP_38PP",
+      "typeTransaction": "sale"
+    },
+    {
+      "id": "22000124980000000022_1",
+      "noticeNumber": "22000124980000000022",
+      "lotNumber": 1,
+      "lotStatus": "PUBLISHED",
+      "biddType": {
+        "code": "67FAS_147FAS",
+        "name": "Аренда, безвозмездное пользование, доверительное управление имуществом, иные договоры, предусматривающие переход прав в отношении государственного или муниципального имущества, продажа имущества ФГУП"
+      },
+      "biddForm": {
+        "code": "EA",
+        "name": "Электронный аукцион"
+      },
+      "lotName": "Офисное помещение",
+      "lotDescription": "Стандартная офисная отделка.  В здании действует пропускной режим через бюро пропусков. Степень технического обустройства – канализация на этаже, отопление, электричество.",
+      "priceMin": 125767.0,
+      "priceMinExact": "125767.00",
+      "biddEndTime": "2026-05-14T21:00:00.000+00:00",
+      "lotImages": [
+        "69eb99ea3eacb7407eca5885",
+        "69eb99ee749fbd67d13c3cd2",
+        "69eb99f10d10730df2ee1199"
+      ],
+      "lotVideos": [],
+      "characteristics": [
+        {
+          "name": "Год ввода в эксплуатацию",
+          "code": "yearCommissioning",
+          "type": "Text(20)"
+        },
+        {
+          "name": "Вид ограничений и обременений",
+          "code": "typeRestrictionsEncumbrances",
+          "type": "Text(100)"
+        },
+        {
+          "name": "Кадастровый номер объекта недвижимости (здания, сооружения), в пределах которого расположено помещение",
+          "code": "cadastralNumberObjectRealty",
+          "type": "Text(20)"
+        },
+        {
+          "characteristicValue": "53.9",
+          "name": "Общая площадь",
+          "code": "totalAreaRealty",
+          "unit": {
+            "code": "081",
+            "name": "Квадратный метр общей площади",
+            "symbol": "м^2 общ. пл"
+          },
+          "type": "Decimal"
+        },
+        {
+          "name": "Расположение в пределах объекта недвижимости (этажа, части этажа, нескольких этажей)",
+          "code": "locationObjectRealty",
+          "type": "Text(100)"
+        },
+        {
+          "name": "Кадастровая стоимость ",
+          "code": "cadastralValue",
+          "type": "Money"
+        },
+        {
+          "characteristicValue": "77:01:0001044:3699",
+          "name": "Кадастровый номер",
+          "code": "cadastralNumberRealty",
+          "type": "Text(500)"
+        },
+        {
+          "name": "Общие сведения об ограничениях и обременениях ",
+          "code": "restrictionsEncumbrances",
+          "type": "Text(500)"
+        },
+        {
+          "name": "Назначение нежилого помещения",
+          "code": "typeNolivingQuarters",
+          "type": "Text(500)"
+        }
+      ],
+      "currencyCode": "643",
+      "etpCode": "ETP_SBAST",
+      "subjectRFCode": "77",
+      "category": {
+        "code": "11",
+        "name": "Нежилые помещения"
+      },
+      "createDate": "2026-04-24T16:32:43.679+00:00",
+      "timeZoneName": "МСК",
+      "timezoneOffset": "180",
+      "hasAppeals": false,
+      "isStopped": false,
+      "attributes": [
+        {
+          "code": "DA_contractType_EA(147)",
+          "fullName": "Вид договора",
+          "value": {
+            "code": "2",
+            "name": "Договор аренды"
+          },
+          "attributeType": "Select",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 1
+        },
+        {
+          "code": "DA_priceMinFor_1_EA(147)",
+          "fullName": "Начальная цена указана за:",
+          "value": {
+            "code": "DA_priceMinFor_1_EA(147)_Select_2",
+            "name": "Арендный платеж за месяц"
+          },
+          "attributeType": "Select",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 200
+        },
+        {
+          "code": "DA_termsConditionsPayment_3_EA(147)",
+          "fullName": "Порядок арендной платы",
+          "value": {
+            "code": "2953",
+            "name": "Ежемесячный платеж"
+          },
+          "attributeType": "Select",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 250
+        },
+        {
+          "code": "DA_termsConditionsPaymentInfo0125_EA(147)",
+          "fullName": "Дополнительная информация о сроках и порядке оплаты",
+          "value": "Арендная плата вносится не позднее 10 (десятого) числа оплачиваемого месяца",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 256
+        },
+        {
+          "code": "DA_contractYears_EA(147)",
+          "fullName": "Срок действия договора - лет",
+          "value": 0,
+          "attributeType": "Integer",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 921
+        },
+        {
+          "code": "DA_contractMonths_EA(147)",
+          "fullName": "Срок действия договора - месяцев",
+          "value": 11,
+          "attributeType": "Integer",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 922
+        },
+        {
+          "code": "DA_contractDays_EA(147)",
+          "fullName": "Срок действия договора - дней",
+          "value": 25,
+          "attributeType": "Integer",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 923
+        },
+        {
+          "code": "DA_contractSigningDate_EA(147)",
+          "fullName": "Срок, в течение которого должен быть подписан проект договора",
+          "value": "30",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 940
+        },
+        {
+          "code": "DA_limitations_EA(147)",
+          "fullName": "Обременения, ограничения",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 950
+        },
+        {
+          "code": "DA_monthlyPricePerSqMeter_EA(147)",
+          "fullName": "Начальная цена за кв.м",
+          "value": 28000.0,
+          "attributeType": "Money",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 960
+        },
+        {
+          "code": "DA_intendedUse_EA(147)",
+          "fullName": "Целевое назначение государственного или муниципального имущества, права на которое передаются по договору",
+          "value": "Учрежденческое",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 970
+        },
+        {
+          "code": "DA_forSmallBusiness_EA(147)",
+          "fullName": "Участниками аукциона могут являться только субъекты малого и среднего предпринимательства, физические лица, применяющие специальный налоговый режим \"Налог на профессиональный доход\", или организации, образующие инфраструктуру поддержки субъектов малого и среднего предпринимательства, имеющие право на поддержку органов государственной власти и органов местного самоуправления",
+          "attributeType": "Checker",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 980
+        },
+        {
+          "code": "DA_isSublease_EA(147)",
+          "fullName": "Сдача имущества в субаренду",
+          "attributeType": "Checker",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 991
+        },
+        {
+          "code": "DA_isAbleToSublease_EA(147)",
+          "fullName": "Возможна субаренда",
+          "attributeType": "Checker",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 992
+        },
+        {
+          "code": "DA_depositTimeAndRules_EA(147)",
+          "fullName": "Срок и порядок внесения задатка",
+          "value": "Срок внесения задатка - не позднее даты и времени окончания подачи заявок. Порядок внесения задатка - согласно регламенту электронной торговой площадки https://www.sberbank-ast.ru/.",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL255",
+            "name": "5.4.2 Лот_информация_о_задатке_дин",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 1
+        }
+      ],
+      "noticeAttributes": [
+        {
+          "code": "DA_fgup_EA(147)",
+          "fullName": "Реализация (отчуждение) имущества ФГУП (ГУП, МУП, государственного, муниципального учреждения)",
+          "value": false,
+          "attributeType": "Checker",
+          "group": {
+            "code": "N250",
+            "name": "1.2 Извещение_основные_сведения",
+            "displayGroupType": "NOTICE"
+          },
+          "sortOrder": 1
+        }
+      ],
+      "isAnnulled": false,
+      "noticeFirstVersionPublicationDate": "2026-04-24T16:33:05.16Z",
+      "lotVat": {
+        "code": "includedVAT",
+        "name": "С учетом НДС"
+      },
+      "npaHintCode": "hint1_67FAS_147FAS",
+      "typeTransaction": "rent"
+    },
+    {
+      "id": "21000018880000002886_1",
+      "noticeNumber": "21000018880000002886",
+      "lotNumber": 1,
+      "lotStatus": "PUBLISHED",
+      "biddType": {
+        "code": "ZK",
+        "name": "Аренда и продажа земельных участков"
+      },
+      "biddForm": {
+        "code": "IPS",
+        "name": "Сообщение о предоставлении (реализации)"
+      },
+      "lotName": "Министерство имущественных отношений Псковской области в соответствии со ст. 39.18 Земельного кодекса Российской Федерации извещает о возможности предоставления в аренду земельного участка из земель населенных пунктов площадью 1500 кв.м по адресу: Псковская область, Пыталовский муниципальный округ, г. Пыталово, ул. Белая , формируемого с видом разрешенного использования \"Для  индивидуального жилищного строительства\".",
+      "lotDescription": "Участок расположен в границах зоны с особыми условиями использования территории, сведения о которых внесены в Единый государственный реестр недвижимости: «Охранная зона ВЛ-10 кВ ф. № 148-10 в границах Пыталовского района Псковской области» (реестровый номер  60:21-6.28).        Ограничения использования земельного участка установлены Постановлением Правительства Российской Федерации от 24.02.2009 № 160 «О порядке установления охранных зон объектов электросетевого хозяйства и особых условий использования земельных участков, расположенных в границах таких зон».",
+      "biddEndTime": "2026-05-26T15:00:00.000+00:00",
+      "lotImages": [
+        "69eb90df749fbd67d13c3b98"
+      ],
+      "lotVideos": [],
+      "characteristics": [
+        {
+          "characteristicValue": [
+            {
+              "value": "2.1",
+              "selectNsi": "PermittedUse",
+              "code": "2.1",
+              "name": "Для индивидуального жилищного строительства",
+              "actual": false
+            }
+          ],
+          "name": "Основной вид разрешенного использования",
+          "code": "PermittedUse",
+          "type": "Multiselect"
+        },
+        {
+          "characteristicValue": "1500.0",
+          "name": "Площадь земельного участка в соответствии с проектом межевания территории или со схемой расположения",
+          "code": "SquareZU_project",
+          "unit": {
+            "code": "055",
+            "name": "Квадратный метр",
+            "symbol": "м^2"
+          },
+          "type": "Decimal"
+        },
+        {
+          "characteristicValue": {
+            "code": "landsSettlements",
+            "name": "Земли населенных пунктов",
+            "actual": false
+          },
+          "name": "Назначение земельного участка",
+          "code": "PurposeZU",
+          "type": "Select"
+        },
+        {
+          "characteristicValue": "60:21:0010207:ЗУ1",
+          "name": "Условный номер земельного участка",
+          "code": "ConditionalNumber",
+          "type": "Text(20)"
+        },
+        {
+          "name": "Вспомогательный вид разрешенного использования",
+          "code": "subsidiaryPermittedUse",
+          "type": "Multiselect"
+        },
+        {
+          "name": "Территориальные зоны",
+          "code": "territorialZones",
+          "type": "Multiselect"
+        }
+      ],
+      "currencyCode": "643",
+      "subjectRFCode": "60",
+      "category": {
+        "code": "307",
+        "name": "Земельные участки (не образованы)"
+      },
+      "createDate": "2026-04-24T15:49:34.388+00:00",
+      "timeZoneName": "МСК",
+      "timezoneOffset": "180",
+      "hasAppeals": false,
+      "isStopped": false,
+      "attributes": [
+        {
+          "code": "DA_DecisionLandSurveyingProject_IPS(ZK)",
+          "fullName": "Реквизиты решения об утверждении проекта межевания территории",
+          "attributeType": "Text(100)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 1
+        },
+        {
+          "code": "DA_PurposeProviding_IPS(ZK)",
+          "fullName": "Цель предоставления земельного участка",
+          "value": "Для  индивидуального жилищного строительства",
+          "attributeType": "Text(100)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 2
+        },
+        {
+          "code": "DA_contractType_IPS(ZK)",
+          "fullName": "Вид договора",
+          "value": {
+            "code": "leaseAgreement",
+            "name": "Договор аренды"
+          },
+          "attributeType": "Select",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 3
+        },
+        {
+          "code": "DA_forCitizens_IPS(ZK)",
+          "fullName": "Для граждан",
+          "value": true,
+          "attributeType": "Checker",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 4
+        },
+        {
+          "code": "DA_forFarms_IPS(ZK)",
+          "fullName": "Для крестьянских (фермерских) хозяйств",
+          "attributeType": "Checker",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 5
+        },
+        {
+          "code": "DA_forAgricultural_IPS(ZK)",
+          "fullName": "Для сельскохозяйственных организаций",
+          "attributeType": "Checker",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 6
+        },
+        {
+          "code": "DA_WebsiteForLandSurveyingProject_IPS(ZK)",
+          "fullName": "Адрес сайта в информационно-телекоммуникационной сети \"Интернет\", на котором размещен утвержденный проект межевания территории",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 7
+        },
+        {
+          "code": "DA_PaperSchemeInforming_IPS(ZK)",
+          "fullName": "Адрес и время приема граждан для ознакомления со схемой расположения земельного участка, в соответствии с которой предстоит образовать земельный участок, если данная схема представлена на бумажном носителе",
+          "value": "Граждане могут ознакомиться со схемой расположения земельного участка, в соответствии с которой предстоит образовать данный земельный участок, в течение 30 календарных дней с даты размещения извещения с 09 ч. 00 мин. до 18 ч. 00 мин. по адресу: г. Псков, ул. Пароменская, д. 21/33, каб. 15, тел. 8(8112) 298-614",
+          "attributeType": "Text(500)",
+          "group": {
+            "code": "NL250",
+            "name": "5.3 Лот_основная_информация",
+            "displayGroupType": "LOT"
+          },
+          "sortOrder": 8
+        }
+      ],
+      "isAnnulled": false,
+      "noticeFirstVersionPublicationDate": "2026-04-24T15:52:07.449Z",
+      "npaHintCode": "hint1_ZK",
+      "typeTransaction": "rent"
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "sort": {
+      "unsorted": false,
+      "sorted": true,
+      "empty": false
+    },
+    "offset": 0,
+    "unpaged": false,
+    "paged": true
+  },
+  "categoryFacet": [],
+  "totalElements": 10000,
+  "totalPages": 1000,
+  "last": false,
+  "first": true,
+  "numberOfElements": 3,
+  "size": 3,
+  "number": 0,
+  "sort": {
+    "unsorted": false,
+    "sorted": true,
+    "empty": false
+  },
+  "empty": false
+}

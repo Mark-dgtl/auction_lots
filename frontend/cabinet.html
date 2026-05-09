@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Личный кабинет · Агрегатор торгов</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/pages.css">
+</head>
+<body>
+
+<main>
+    <div class="container">
+        <header class="fc-page-hero fc-page-hero--flush">
+            <h1>Личный кабинет</h1>
+            <p>Профиль, избранное, сохранённые фильтры и привязка Telegram.</p>
+        </header>
+        <div class="cabinet-layout">
+            <aside class="cabinet-nav" aria-label="Разделы кабинета">
+                <button type="button" class="active" data-tab="profile">Профиль</button>
+                <button type="button" data-tab="favorites">Избранное</button>
+                <button type="button" data-tab="filters">Сохранённые фильтры</button>
+                <button type="button" data-tab="telegram">Telegram</button>
+            </aside>
+
+            <div>
+                <section id="sec-profile" class="cabinet-section">
+                    <h2>Профиль</h2>
+                    <div class="profile-summary">
+                        <div><span class="muted">Email: </span><strong id="user-email">—</strong></div>
+                        <div><span class="muted">Время дайджеста: </span><strong id="user-digest">—</strong></div>
+                    </div>
+                    <p class="muted text-sm">
+                        Изменить время дайджеста можно на странице
+                        <a href="/notifications.html">уведомлений</a>.
+                    </p>
+                </section>
+
+                <section id="sec-favorites" class="cabinet-section hidden">
+                    <h2>Избранное</h2>
+                    <div id="favorites-grid" class="lots-grid"></div>
+                </section>
+
+                <section id="sec-filters" class="cabinet-section hidden">
+                    <h2>Сохранённые фильтры</h2>
+                    <div id="filters-list"></div>
+                </section>
+
+                <section id="sec-telegram" class="cabinet-section hidden">
+                    <h2>Telegram</h2>
+                    <div id="telegram-block"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module" src="./js/pages/cabinet.js"></script>
+</body>
+</html>

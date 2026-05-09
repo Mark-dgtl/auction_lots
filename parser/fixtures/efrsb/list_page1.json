@@ -1,0 +1,96 @@
+{
+  "pageData": [
+    {
+      "guid": "d3f1a8b0-1111-4c22-9a01-aaaaaaaa0001",
+      "number": "12345678",
+      "publishDate": "2026-04-20T07:30:00Z",
+      "type": {"name": "Сообщение о проведении торгов"},
+      "debtor": {
+        "name": "ООО \"Ромашка\"",
+        "fullName": "Общество с ограниченной ответственностью \"Ромашка\"",
+        "inn": "7701234567"
+      },
+      "regionName": "г. Москва",
+      "statusName": "Актуально",
+      "trade": {
+        "bidStartDate": "2026-05-15T09:00:00+03:00",
+        "bidEndDate": "2026-05-20T18:00:00+03:00",
+        "auctionDate": "2026-05-20T10:00:00+03:00",
+        "region": "45",
+        "lots": [
+          {
+            "lotNumber": 1,
+            "lotName": "Квартира 52.3 кв.м, г. Москва, ул. Ленина, д. 10",
+            "description": "Двухкомнатная квартира, 3 этаж, общая площадь 52.3 кв.м.",
+            "address": "г. Москва, ул. Ленина, д. 10, кв. 5",
+            "priceStart": "3 500 000,00",
+            "priceStep": "175 000,00",
+            "classifierNode": {"name": "Квартира"},
+            "photos": [
+              "https://example-cdn.example/efrsb/1.jpg",
+              "https://example-cdn.example/efrsb/2.jpg"
+            ],
+            "status": "active"
+          },
+          {
+            "lotNumber": 2,
+            "lotName": "Автомобиль LADA Granta, 2018 г.в.",
+            "description": "Легковой автомобиль, пробег 120 000 км",
+            "priceStart": 350000,
+            "priceStep": 17500,
+            "classifierNode": {"name": "Транспортное средство"},
+            "photos": [],
+            "status": "active"
+          }
+        ]
+      }
+    },
+    {
+      "guid": "d3f1a8b0-1111-4c22-9a01-aaaaaaaa0002",
+      "number": "12345679",
+      "publishDate": "2026-04-21T10:15:00Z",
+      "type": {"name": "Сообщение о проведении торгов"},
+      "debtor": {"name": "ИП Иванов И.И."},
+      "regionName": "Свердловская область",
+      "statusName": "Актуально",
+      "trade": {
+        "bidEndDate": "2026-06-01T15:00:00+05:00",
+        "region": "66",
+        "lots": [
+          {
+            "lotNumber": 1,
+            "lotName": "Земельный участок 15 соток, Свердловская область",
+            "description": "",
+            "priceStart": "1 200 000",
+            "photos": [
+              {"url": "https://example-cdn.example/efrsb/land1.jpg"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "guid": "d3f1a8b0-1111-4c22-9a01-aaaaaaaa0003",
+      "number": "12345680",
+      "publishDate": "2026-04-22T08:00:00Z",
+      "type": {"name": "Сообщение о проведении торгов"},
+      "debtor": {"name": "ООО \"Станки и детали\""},
+      "regionName": "Челябинская область",
+      "trade": {
+        "bidEndDate": "2026-06-10T12:00:00+05:00",
+        "region": "75",
+        "lots": [
+          {
+            "lotNumber": 1,
+            "lotName": "",
+            "description": "Токарный станок 1К62, 1985 г.в., в рабочем состоянии",
+            "priceStart": null,
+            "priceStep": null,
+            "photos": []
+          }
+        ]
+      }
+    }
+  ],
+  "found": 3
+}

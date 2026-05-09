@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Уведомления · Агрегатор торгов</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/pages.css">
+</head>
+<body>
+
+<main>
+    <div class="container notifications-page">
+        <header class="fc-page-hero fc-page-hero--flush">
+            <h1>Уведомления</h1>
+            <p>Telegram, время дайджеста и фильтры с оповещениями — в одном разделе.</p>
+        </header>
+
+        <div class="notifications-page__inner notifications-section">
+        <section class="card">
+            <h3 class="card-title">Telegram</h3>
+            <div id="tg-status" class="muted text-sm"></div>
+        </section>
+
+        <section class="card">
+            <h3 class="card-title">Ежедневный дайджест</h3>
+            <form id="settings-form" class="notifications-form-digest">
+                <div class="field field--narrow">
+                    <label for="digest-time">Время отправки</label>
+                    <input id="digest-time" name="digest_time" class="input"
+                           type="time" value="09:00" required>
+                    <span class="hint">В вашей локальной таймзоне.</span>
+                </div>
+                <div class="notifications-form-actions">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" id="test-btn" class="btn btn-secondary">
+                        Тестовая отправка
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <h3 class="card-title">Активные уведомления по фильтрам</h3>
+            <p class="muted text-sm mb-4">
+                Включите чекбокс, чтобы получать новые лоты по этому фильтру в дайджест.
+            </p>
+            <div id="notify-filters-list"></div>
+        </section>
+        </div>
+    </div>
+</main>
+
+<script type="module" src="./js/pages/notifications.js"></script>
+</body>
+</html>

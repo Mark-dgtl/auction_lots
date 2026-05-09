@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Агрегатор торгов — главная</title>
+    <meta name="description"
+          content="Агрегатор имущественных торгов: единая витрина лотов, фильтры, избранное и уведомления в Telegram.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/pages.css">
+</head>
+<body class="page-home">
+
+<main>
+    <section class="fc-hero" aria-labelledby="fc-hero-title">
+        <div class="fc-hero__glow" aria-hidden="true"></div>
+        <div class="fc-hero__inner container">
+            <p class="fc-hero__eyebrow">Агрегатор имущественных торгов</p>
+            <h1 id="fc-hero-title" class="fc-hero__title">
+                <span class="fc-hero__line">Один поиск</span>
+                <span class="fc-hero__line fc-hero__line--grad">По всем торгам</span>
+            </h1>
+
+
+            <div class="fc-hero__search-card">
+                <form id="hero-search" class="search-bar" role="search">
+                    <label for="hero-input" class="hint" hidden>Поиск лотов</label>
+                    <input id="hero-input" class="input fc-hero__input" type="search"
+                           placeholder="Что ищем? Например: квартира, земля, авто…"
+                           autocomplete="off">
+                    <button type="submit" class="btn btn-primary">Найти лоты</button>
+                </form>
+                <div id="quick-filters" class="quick-filters" aria-label="Быстрые фильтры по категории">
+                    <button type="button" class="quick-filter" data-cat="real_estate">Недвижимость</button>
+                    <button type="button" class="quick-filter" data-cat="vehicle">Транспорт</button>
+                    <button type="button" class="quick-filter" data-cat="equipment">Оборудование</button>
+                    <button type="button" class="quick-filter" data-cat="land">Земля</button>
+                    <button type="button" class="quick-filter" data-cat="rights">Права требования</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container page-home__content">
+        <section class="fc-section fc-section--features" aria-labelledby="fc-features-title">
+            <div class="fc-section-header">
+                <p class="fc-section__label">Почему мы</p>
+                <h2 id="fc-features-title" class="fc-section__title">Всё, что нужно, в одном месте</h2>
+            </div>
+            <div class="fc-feature-grid">
+                <article class="fc-feature-card">
+                    <div class="fc-feature-card__icon" aria-hidden="true">◇</div>
+                    <h3 class="fc-feature-card__title">Единая витрина</h3>
+                    <p class="fc-feature-card__text">Сводка лотов с публичных площадок — один поиск вместо десятка вкладок.</p>
+                </article>
+                <article class="fc-feature-card">
+                    <div class="fc-feature-card__icon" aria-hidden="true">◎</div>
+                    <h3 class="fc-feature-card__title">Умные фильтры</h3>
+                    <p class="fc-feature-card__text">Категория, регион, бюджет, даты — сохраняйте комбинации и возвращайтесь к ним в один клик.</p>
+                </article>
+                <article class="fc-feature-card">
+                    <div class="fc-feature-card__icon" aria-hidden="true">✦</div>
+                    <h3 class="fc-feature-card__title">Telegram</h3>
+                    <p class="fc-feature-card__text">Привяжите бота — получайте дайджесты и не пропускайте релевантные лоты.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="fc-section fc-section--dark" aria-labelledby="fc-steps-title">
+            <div class="fc-steps-wrap">
+                <p class="fc-section__label fc-section__label--on-dark">Как это работает</p>
+                <h2 id="fc-steps-title" class="fc-section__title fc-section__title--on-dark">Три шага — и вы в курсе</h2>
+                <ol class="fc-steps">
+                    <li>
+                        <span class="fc-steps__num">01</span>
+                        <div>
+                            <strong class="fc-steps__name">Найдите сценарий</strong>
+                            <p class="fc-steps__desc">Поиск или быстрый фильтр по категории — сразу видно свежие лоты.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="fc-steps__num">02</span>
+                        <div>
+                            <strong class="fc-steps__name">Сохраните фильтр</strong>
+                            <p class="fc-steps__desc">Задайте регион и цену, включите уведомления по нужным критериям.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="fc-steps__num">03</span>
+                        <div>
+                            <strong class="fc-steps__name">Получайте сигналы</strong>
+                            <p class="fc-steps__desc">Дайджест в удобное время или мгновенные подсказки в Telegram.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="fc-cta" aria-label="Призыв к действию">
+            <div class="fc-cta__inner">
+                <h2 class="fc-cta__title">От пустой строки поиска — к списку лотов за пару кликов</h2>
+                <p class="fc-cta__text">Настройте фильтры, добавьте в избранное и пусть сервис работает на вас.</p>
+                <a href="/search.html" class="btn btn-primary fc-cta__btn">Перейти к поиску</a>
+            </div>
+        </section>
+    </div>
+</main>
+
+<script type="module" src="./js/pages/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru" class="auth-page fc-auth-page">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Вход · Агрегатор торгов</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/pages.css">
+</head>
+<body>
+
+<main>
+    <div class="fc-auth">
+        <aside class="fc-auth__art" aria-hidden="false">
+            <div class="fc-auth__art-inner">
+                <h2>Добро пожаловать<br>в один поиск по торгам</h2>
+                <p>Сохраняйте фильтры, избранное и дайджесты в Telegram — в одном аккаунте.</p>
+            </div>
+        </aside>
+        <div class="fc-auth__form">
+            <div class="auth-card">
+                <h1 style="font-family:var(--font-display);font-size:var(--font-size-xl);font-weight:800;letter-spacing:-0.03em;margin-bottom:var(--space-4)">Войти или зарегистрироваться</h1>
+
+                <div class="tabs" role="tablist">
+                    <button type="button" class="tab active" role="tab"
+                            data-tab="login" aria-selected="true">Вход</button>
+                    <button type="button" class="tab" role="tab"
+                            data-tab="register" aria-selected="false">Регистрация</button>
+                </div>
+
+                <form id="form-login" novalidate autocomplete="on">
+                    <div class="field">
+                        <label for="l-email">Email</label>
+                        <input id="l-email" name="email" class="input"
+                               type="email" autocomplete="email" required>
+                        <span class="error-msg" data-error-for="email"></span>
+                    </div>
+                    <div class="field">
+                        <label for="l-pass">Пароль</label>
+                        <input id="l-pass" name="password" class="input"
+                               type="password" autocomplete="current-password" required>
+                        <span class="error-msg" data-error-for="password"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Войти</button>
+                </form>
+
+                <form id="form-register" class="hidden" novalidate autocomplete="on">
+                    <div class="field">
+                        <label for="r-email">Email</label>
+                        <input id="r-email" name="email" class="input"
+                               type="email" autocomplete="email" required>
+                        <span class="error-msg" data-error-for="email"></span>
+                    </div>
+                    <div class="field">
+                        <label for="r-pass">Пароль</label>
+                        <input id="r-pass" name="password" class="input"
+                               type="password" autocomplete="new-password"
+                               minlength="8" required>
+                        <span class="hint">Минимум 8 символов</span>
+                        <span class="error-msg" data-error-for="password"></span>
+                    </div>
+                    <div class="field">
+                        <label for="r-pass2">Повторите пароль</label>
+                        <input id="r-pass2" name="password2" class="input"
+                               type="password" autocomplete="new-password" required>
+                        <span class="error-msg" data-error-for="password2"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Создать аккаунт</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module" src="./js/pages/login.js"></script>
+</body>
+</html>

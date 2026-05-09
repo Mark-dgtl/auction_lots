@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Поиск лотов · Агрегатор торгов</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/pages.css">
+</head>
+<body>
+
+<main>
+    <div class="container">
+        <header class="fc-page-hero">
+            <h1>Поиск лотов</h1>
+            <p>Настройте фильтры слева и сортируйте результаты — как в каталоге шаблонов, только для торгов.</p>
+        </header>
+
+        <div class="search-layout">
+            <aside class="search-sidebar" aria-label="Фильтры">
+                <div id="filters-root" class="filters-panel"></div>
+            </aside>
+
+            <section aria-label="Результаты поиска">
+                <div class="search-toolbar">
+                    <div id="results-count" class="results-count"></div>
+                    <label class="sort-control">
+                        <span>Сортировка:</span>
+                        <select id="sort-select" class="select">
+                            <option value="date_desc">Сначала новые</option>
+                            <option value="price_asc">Цена: по возрастанию</option>
+                            <option value="price_desc">Цена: по убыванию</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div id="results" class="lots-grid"></div>
+                <div id="pagination" class="pagination"></div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<script type="module" src="./js/pages/search.js"></script>
+</body>
+</html>

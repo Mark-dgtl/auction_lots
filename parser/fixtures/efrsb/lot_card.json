@@ -1,0 +1,27 @@
+{
+  "guid": "d3f1a8b0-1111-4c22-9a01-aaaaaaaa0001",
+  "number": "12345678",
+  "publishDate": "2026-04-20T07:30:00Z",
+  "type": {"name": "Сообщение о проведении торгов"},
+  "debtor": {
+    "name": "ООО \"Ромашка\"",
+    "fullName": "Общество с ограниченной ответственностью \"Ромашка\"",
+    "inn": "7701234567"
+  },
+  "trade": {
+    "bidStartDate": "2026-05-15T09:00:00+03:00",
+    "bidEndDate": "2026-05-20T18:00:00+03:00",
+    "region": "45",
+    "lots": [
+      {
+        "lotNumber": 1,
+        "lotName": "Квартира 52.3 кв.м, г. Москва, ул. Ленина, д. 10",
+        "description": "Двухкомнатная квартира, 3 этаж.",
+        "priceStart": "3 500 000,00",
+        "priceStep": "175 000,00",
+        "classifierNode": {"name": "Квартира"},
+        "photos": ["https://example-cdn.example/efrsb/1.jpg"]
+      }
+    ]
+  }
+}

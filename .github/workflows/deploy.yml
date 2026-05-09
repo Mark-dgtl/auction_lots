@@ -1,0 +1,35 @@
+# Деплой: при push в main — SSH на VPS, git pull, docker compose up + restart backend/bot.
+# Volumes в compose уже монтируют ./backend, ./parser, ./bot, ./frontend с хоста.
+#
+# Секреты репозитория (Settings → Secrets and variables → Actions):
+#   DEPLOY_HOST       — IP или домен VPS
+#   DEPLOY_USER       — пользователь SSH (например deploy)
+#   DEPLOY_SSH_KEY    — приватный ключ (весь PEM, с BEGIN/END)
+#   DEPLOY_PATH       — абсолютный путь к клону репо на сервере, напр. /home/deploy/tenders
+#
+# На сервере один раз: clone репо, положить .env, docker compose up -d.
+# Для git pull с GitHub: deploy key (read-only) или PAT в credential helper.
+
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull on server and restart containers
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            cd "${{ secrets.DEPLOY_PATH }}"
+            export DEPLOY_BRANCH=main
+            bash scripts/deploy.sh
