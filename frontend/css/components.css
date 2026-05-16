@@ -83,6 +83,7 @@
 
 /* ---------- Footer ---------- */
 .site-footer {
+    width: 100%;
     background: linear-gradient(180deg, #0f0c18 0%, #0a0712 100%);
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     padding: var(--space-8) 0 var(--space-6);

@@ -18,6 +18,7 @@ import {
 } from "../utils.js";
 
 async function boot() {
+    document.body.classList.add("page-lot");
     await renderHeader(null);
     renderFooter();
 

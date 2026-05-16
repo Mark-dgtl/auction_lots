@@ -606,9 +606,14 @@ html.fc-auth-page main {
 /* ---------- Lot page ---------- */
 .lot-layout {
     display: grid;
-    grid-template-columns: 1fr 340px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
     gap: var(--space-5);
     align-items: start;
+}
+
+/* grid-элементы по умолчанию не сжимаются ниже контента — ломает мобильную вёрстку */
+.lot-layout > * {
+    min-width: 0;
 }
 
 .lot-gallery {
@@ -676,6 +681,9 @@ html.fc-auth-page main {
     font-size: var(--font-size-xl);
     letter-spacing: -0.01em;
     margin-bottom: var(--space-2);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    scroll-margin-top: calc(var(--header-height) + var(--space-3));
 }
 
 .lot-meta {
@@ -690,6 +698,8 @@ html.fc-auth-page main {
     white-space: pre-line;
     color: var(--color-text);
     line-height: 1.6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .lot-sidebar {
@@ -719,8 +729,19 @@ html.fc-auth-page main {
     gap: var(--space-3);
 }
 
-.info-rows .row .label { color: var(--color-text-muted); }
-.info-rows .row .value { text-align: right; color: var(--color-text); font-weight: 500; }
+.info-rows .row .label {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+}
+
+.info-rows .row .value {
+    text-align: right;
+    color: var(--color-text);
+    font-weight: 500;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
 
 /* ---------- Login page (сплит fc-auth) ---------- */
 .auth-card {
@@ -854,8 +875,13 @@ html.fc-auth-page main {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
-    .lot-layout { grid-template-columns: 1fr; }
-    .lot-sidebar { position: static; }
+    .lot-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .lot-sidebar {
+        position: static;
+        order: -1;
+    }
 }
 
 @media (max-width: 900px) {
@@ -880,6 +906,36 @@ html.fc-auth-page main {
 
 @media (max-width: 768px) {
     main { padding: var(--space-4) 0; }
+
+    .lot-layout { gap: var(--space-4); }
+
+    .lot-title {
+        font-size: var(--font-size-lg);
+        line-height: 1.25;
+    }
+
+    .lot-meta .muted {
+        width: 100%;
+    }
+
+    .info-rows .row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .info-rows .row .value {
+        text-align: left;
+        width: 100%;
+    }
+
+    .lot-sidebar .card {
+        padding: var(--space-4);
+    }
+
+    .price-block {
+        font-size: var(--font-size-lg);
+    }
 
     .page-home__content { padding-top: var(--space-6); }
 
@@ -920,6 +976,11 @@ html.fc-auth-page main {
 
 @media (max-width: 480px) {
     .container { padding: 0 var(--space-3); }
+
+    .lot-gallery-thumbs button {
+        width: 64px;
+        height: 48px;
+    }
 
     .lots-grid { grid-template-columns: 1fr; }
 
