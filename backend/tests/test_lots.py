@@ -120,6 +120,26 @@ async def test_lot_is_favorite_for_auth_user(
     assert fav_items[0]["is_favorite"] is True
 
 
+async def test_lots_sort_random_vehicle_first_unfiltered(
+    client: AsyncClient, sample_lots: list[int]
+) -> None:
+    """Без фильтров sort=random отдаёт транспорт раньше остальных категорий."""
+    resp = await client.get(
+        "/api/lots?sort=random&shuffle_seed=vehicleboost&page_size=3"
+    )
+    assert resp.status_code == 200
+    items = resp.json()["items"]
+    assert len(items) == 3
+    vehicle_idx = next(
+        (i for i, it in enumerate(items) if it["category"] == "vehicle"),
+        None,
+    )
+    assert vehicle_idx is not None
+    for i, it in enumerate(items):
+        if it["category"] != "vehicle":
+            assert i > vehicle_idx
+
+
 async def test_lots_sort_random_stable(
     client: AsyncClient, sample_lots: list[int]
 ) -> None:

@@ -23,6 +23,7 @@ class LotShort(BaseModel):
     price: Optional[str]  # Decimal → str, согласно §4 контракта
     auction_date: Optional[datetime]
     thumbnail: Optional[str]
+    thumbnail_source: Optional[str] = None
     is_favorite: bool = False
 
 

@@ -1,11 +1,12 @@
-"""Локальный кэш изображений лотов (папка проекта data/lot_images)."""
+"""Локальный кэш изображений лотов (полный файл + WebP-превью для ленты)."""
 
 from __future__ import annotations
 
 import hashlib
+import io
 import logging
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import quote, urlparse
 
 import httpx
 
@@ -21,6 +22,7 @@ _ALLOWED_HOST_SUFFIXES: tuple[str, ...] = (
 )
 
 _MAX_IMAGE_BYTES = 12 * 1024 * 1024
+_CACHE_HEADERS = {"Cache-Control": "public, max-age=604800, immutable"}
 
 
 def is_allowed_image_url(url: str) -> bool:
@@ -37,14 +39,46 @@ def is_allowed_image_url(url: str) -> bool:
     )
 
 
+def cache_key(url: str) -> str:
+    return hashlib.sha256(url.encode("utf-8")).hexdigest()
+
+
 def cache_path_for_url(url: str) -> Path:
-    """Путь к файлам кэша для URL (без расширения — рядом .bin и .meta)."""
-    key = hashlib.sha256(url.encode("utf-8")).hexdigest()
+    """Базовый путь кэша без расширения: data/lot_images/ab/<hash>."""
+    key = cache_key(url)
     return settings.resolved_media_cache_dir() / key[:2] / key
 
 
+def thumb_path_for_url(url: str) -> Path:
+    base = cache_path_for_url(url)
+    return base.parent / f"{base.name}.thumb.webp"
+
+
+def public_thumb_url(url: str) -> str:
+    """Прямой URL для nginx (без Python), отдаёт .thumb.webp."""
+    key = cache_key(url)
+    return f"/media/cache/{key[:2]}/{key}.thumb.webp"
+
+
+def public_api_image_url(url: str, *, variant: str = "thumb") -> str:
+    return f"/api/media/image?url={quote(url, safe='')}&variant={variant}"
+
+
+def resolve_feed_thumbnail(external_url: str | None) -> str | None:
+    """URL превью для ленты: статика nginx, если файл уже в кэше."""
+    if not external_url:
+        return None
+    url = external_url.strip()
+    if not url:
+        return None
+    if not is_allowed_image_url(url):
+        return url
+    if thumb_path_for_url(url).is_file():
+        return public_thumb_url(url)
+    return public_api_image_url(url, variant="thumb")
+
+
 def is_image_cached(url: str) -> bool:
-    """True, если изображение уже лежит на диске."""
     if not is_allowed_image_url(url):
         return False
     path = cache_path_for_url(url)
@@ -83,6 +117,43 @@ def _write_cache(path: Path, body: bytes, content_type: str) -> None:
         raise
 
 
+def ensure_thumbnail(url: str, body: bytes | None = None) -> bool:
+    """Создаёт WebP-превью (~420px) для ленты. Возвращает True при успехе."""
+    thumb = thumb_path_for_url(url)
+    if thumb.is_file() and thumb.stat().st_size > 0:
+        return True
+
+    if body is None:
+        cached = _read_cache(cache_path_for_url(url))
+        if cached is None:
+            return False
+        body, _ = cached
+
+    try:
+        from PIL import Image
+
+        with Image.open(io.BytesIO(body)) as img:
+            if img.mode in ("RGBA", "LA", "P"):
+                img = img.convert("RGB")
+            elif img.mode != "RGB":
+                img = img.convert("RGB")
+            max_w = settings.MEDIA_THUMB_MAX_WIDTH
+            img.thumbnail((max_w, max_w * 2), Image.Resampling.LANCZOS)
+            thumb.parent.mkdir(parents=True, exist_ok=True)
+            tmp = thumb.with_suffix(".thumb.webp.tmp")
+            img.save(
+                tmp,
+                "WEBP",
+                quality=settings.MEDIA_THUMB_QUALITY,
+                method=4,
+            )
+            tmp.replace(thumb)
+        return True
+    except Exception as exc:
+        logger.warning("Не удалось создать превью для %s: %s", url, exc)
+        return False
+
+
 async def _download_image(url: str) -> tuple[bytes, str]:
     timeout = httpx.Timeout(settings.MEDIA_PROXY_TIMEOUT_SECONDS)
     headers = {
@@ -111,32 +182,40 @@ async def _download_image(url: str) -> tuple[bytes, str]:
     return body, content_type
 
 
+def store_image(url: str, body: bytes, content_type: str) -> None:
+    """Сохраняет полный файл и генерирует превью."""
+    cache = cache_path_for_url(url)
+    _write_cache(cache, body, content_type)
+    ensure_thumbnail(url, body)
+
+
 async def prefetch_image_url(url: str) -> bool:
     """Скачивает изображение в локальный кэш. Не бросает исключения наружу."""
     if not is_allowed_image_url(url):
         return False
     if is_image_cached(url):
+        ensure_thumbnail(url)
         return True
 
     cache = cache_path_for_url(url)
     try:
         body, content_type = await _download_image(url)
-        _write_cache(cache, body, content_type)
+        store_image(url, body, content_type)
         return True
     except Exception as exc:
         logger.warning("Не удалось закэшировать %s: %s", url, exc)
         return False
 
 
-async def fetch_cached_image(url: str) -> tuple[bytes, str]:
-    """Отдаёт изображение с диска или качает с источника (для /api/media/image)."""
+async def fetch_cached_image(url: str) -> tuple[bytes, str, Path | None]:
+    """Возвращает (тело, content-type, путь_к_файлу_или_None для FileResponse)."""
     if not is_allowed_image_url(url):
         raise Forbidden("URL изображения не разрешён")
 
     cache = cache_path_for_url(url)
     cached = _read_cache(cache)
     if cached is not None:
-        return cached
+        return cached[0], cached[1], cache.with_suffix(".bin")
 
     try:
         body, content_type = await _download_image(url)
@@ -145,8 +224,12 @@ async def fetch_cached_image(url: str) -> tuple[bytes, str]:
         raise UpstreamError("Не удалось загрузить изображение") from exc
 
     try:
-        _write_cache(cache, body, content_type)
+        store_image(url, body, content_type)
     except OSError as exc:
         logger.warning("Не удалось записать кэш %s: %s", cache, exc)
 
-    return body, content_type
+    return body, content_type, cache.with_suffix(".bin")
+
+
+def cache_response_headers() -> dict[str, str]:
+    return dict(_CACHE_HEADERS)

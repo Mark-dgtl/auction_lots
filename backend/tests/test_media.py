@@ -36,9 +36,11 @@ async def test_proxy_image_serves_cached(client: AsyncClient) -> None:
     fake_body = b"\xff\xd8\xff fake jpeg"
     with patch(
         "app.api.media.fetch_cached_image",
-        new=AsyncMock(return_value=(fake_body, "image/jpeg")),
+        new=AsyncMock(return_value=(fake_body, "image/jpeg", None)),
     ):
-        resp = await client.get("/api/media/image", params={"url": url})
+        resp = await client.get(
+            "/api/media/image", params={"url": url, "variant": "full"}
+        )
     assert resp.status_code == 200
     assert resp.content == fake_body
     assert resp.headers["content-type"].startswith("image/jpeg")

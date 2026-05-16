@@ -25,6 +25,7 @@ dependencies = [
     "sse-starlette>=1.8",
     "sqlparse>=0.5",
     "psutil>=5.9",
+    "Pillow>=10.0",
 ]
 
 [project.optional-dependencies]

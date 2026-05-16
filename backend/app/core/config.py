@@ -56,7 +56,9 @@ class Settings(BaseSettings):
     # Локальный кэш фото лотов (по умолчанию <корень проекта>/data/lot_images)
     MEDIA_CACHE_DIR: str = "data/lot_images"
     MEDIA_PROXY_TIMEOUT_SECONDS: float = 25.0
-    MEDIA_PREFETCH_CONCURRENCY: int = 6
+    MEDIA_PREFETCH_CONCURRENCY: int = 16
+    MEDIA_THUMB_MAX_WIDTH: int = 420
+    MEDIA_THUMB_QUALITY: int = 78
     MEDIA_WARM_ON_STARTUP: bool = True
     MEDIA_WARM_STARTUP_DELAY_SECONDS: float = 20.0
     MEDIA_WARM_BATCH_SIZE: int = 80

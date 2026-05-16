@@ -6,7 +6,7 @@
  */
 
 import { formatPrice, formatDate, escapeHtml } from "../utils.js";
-import { lotImageUrl } from "../media.js";
+import { lotFeedThumbUrl, lotImageApiFallback } from "../media.js";
 
 const HEART_SVG = `
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -19,12 +19,16 @@ export function renderLotCard(lot, { onFavorite, imagePriority } = {}) {
     card.className = "lot-card";
     card.dataset.lotId = String(lot.id);
 
-    const thumbSrc = lot.thumbnail ? lotImageUrl(lot.thumbnail) : null;
+    const thumbSrc = lotFeedThumbUrl(lot);
+    const remoteSrc = lot.thumbnail_source || "";
     const priorityAttr =
         imagePriority === "high" ? ' fetchpriority="high"' : "";
+    const loadingAttr =
+        imagePriority === "high" ? ' loading="eager"' : ' loading="lazy"';
     const thumb = thumbSrc
         ? `<img class="lot-card-thumb" src="${escapeHtml(thumbSrc)}"
-                 alt="${escapeHtml(lot.title)}" loading="lazy" decoding="async"${priorityAttr}>`
+                 data-remote="${escapeHtml(remoteSrc)}"
+                 alt="${escapeHtml(lot.title)}"${loadingAttr} decoding="async"${priorityAttr}>`
         : `<div class="lot-card-thumb placeholder">Нет фото</div>`;
 
     const favBtnHtml = onFavorite
@@ -60,14 +64,26 @@ export function renderLotCard(lot, { onFavorite, imagePriority } = {}) {
 
     const img = card.querySelector(".lot-card-thumb[src]");
     if (img) {
-        const markLoaded = () => img.classList.add("is-loaded");
-        if (img.complete) markLoaded();
-        else {
-            img.addEventListener("load", markLoaded, { once: true });
-            img.addEventListener("error", () => img.classList.add("is-error"), {
-                once: true,
-            });
-        }
+        const showPlaceholder = () => {
+            const ph = document.createElement("div");
+            ph.className = "lot-card-thumb placeholder";
+            ph.textContent = "Нет фото";
+            img.replaceWith(ph);
+        };
+        const onError = () => {
+            if (img.dataset.fallback === "1") {
+                showPlaceholder();
+                return;
+            }
+            const api = lotImageApiFallback(img.dataset.remote || "", "thumb");
+            if (api && img.src !== api) {
+                img.dataset.fallback = "1";
+                img.src = api;
+                return;
+            }
+            showPlaceholder();
+        };
+        img.addEventListener("error", onError);
     }
 
     if (onFavorite) {

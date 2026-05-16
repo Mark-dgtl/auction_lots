@@ -13,10 +13,17 @@ from app.core.errors import NotFound
 from app.models.favorite import Favorite
 from app.models.lot import Lot
 from app.models.region import Region
+from app.services.media_proxy import (
+    is_allowed_image_url,
+    public_api_image_url,
+    resolve_feed_thumbnail,
+)
 
 logger = logging.getLogger("app.lots")
 
 VALID_SORTS = frozenset({"date_desc", "price_asc", "price_desc", "random"})
+# В общей ленте без фильтров (sort=random) транспорт показываем выше остальных.
+_VEHICLE_FIRST_CATEGORY = "vehicle"
 
 
 class LotService:
@@ -98,14 +105,30 @@ class LotService:
         count_stmt = select(func.count()).select_from(stmt.subquery())
         total = (await self._db.scalar(count_stmt)) or 0
 
+        vehicle_first = sort == "random" and self._is_unfiltered_browse(
+            query=query,
+            category=category,
+            region=region,
+            price_from=price_from,
+            price_to=price_to,
+            date_from=date_from,
+            date_to=date_to,
+        )
+
         if sort == "random" and not self._is_postgresql():
             stmt = await self._apply_random_sqlite(
-                stmt, shuffle_seed, page, page_size
+                stmt,
+                shuffle_seed,
+                page,
+                page_size,
+                vehicle_first=vehicle_first,
             )
             if stmt is None:
                 return [], total
         else:
-            stmt = self._apply_sort(stmt, sort, shuffle_seed)
+            stmt = self._apply_sort(
+                stmt, sort, shuffle_seed, vehicle_first=vehicle_first
+            )
             stmt = stmt.offset((page - 1) * page_size).limit(page_size)
 
         rows = (await self._db.execute(stmt)).all()
@@ -164,21 +187,53 @@ class LotService:
 
         return self._lot_to_detail(lot, region_name, is_fav)
 
+    @staticmethod
+    def _is_unfiltered_browse(
+        *,
+        query: Optional[str],
+        category: Optional[str],
+        region: Optional[str],
+        price_from: Optional[Decimal],
+        price_to: Optional[Decimal],
+        date_from: Optional[datetime],
+        date_to: Optional[datetime],
+    ) -> bool:
+        """Лента поиска без фильтров (дефолтный режим со sort=random)."""
+        return not any(
+            (
+                query,
+                category,
+                region,
+                price_from is not None,
+                price_to is not None,
+                date_from is not None,
+                date_to is not None,
+            )
+        )
+
     async def _apply_random_sqlite(
         self,
         stmt,
         shuffle_seed: Optional[str],
         page: int,
         page_size: int,
+        *,
+        vehicle_first: bool = False,
     ):
         """Стабильный random для SQLite (тесты): сортировка id по md5(id:seed)."""
         seed = (shuffle_seed or "0")[:64]
         sub = stmt.subquery()
-        id_result = await self._db.scalars(select(sub.c.id))
-        ids = sorted(
-            id_result.all(),
-            key=lambda i: hashlib.md5(f"{i}:{seed}".encode()).hexdigest(),
-        )
+        rows = (
+            await self._db.execute(select(sub.c.id, sub.c.category))
+        ).all()
+
+        def _sort_key(row: tuple[int, Optional[str]]) -> tuple:
+            lot_id, cat = row
+            rank = 0 if vehicle_first and cat == _VEHICLE_FIRST_CATEGORY else 1
+            digest = hashlib.md5(f"{lot_id}:{seed}".encode()).hexdigest()
+            return rank, digest
+
+        ids = [lot_id for lot_id, _ in sorted(rows, key=_sort_key)]
         page_ids = ids[(page - 1) * page_size : page * page_size]
         if not page_ids:
             return None
@@ -188,7 +243,14 @@ class LotService:
         )
         return stmt.where(Lot.id.in_(page_ids)).order_by(order_case)
 
-    def _apply_sort(self, stmt, sort: str, shuffle_seed: Optional[str]):
+    def _apply_sort(
+        self,
+        stmt,
+        sort: str,
+        shuffle_seed: Optional[str],
+        *,
+        vehicle_first: bool = False,
+    ):
         """Применяет ORDER BY; random — псевдослучайный порядок, стабильный по seed."""
         if sort == "price_asc":
             return stmt.order_by(Lot.price.asc().nulls_last())
@@ -197,10 +259,16 @@ class LotService:
         if sort == "random":
             seed = (shuffle_seed or "0")[:64]
             if self._is_postgresql():
-                return stmt.order_by(
-                    func.md5(func.concat(cast(Lot.id, String), seed))
+                random_key = func.md5(func.concat(cast(Lot.id, String), seed))
+            else:
+                random_key = func.random()
+            if vehicle_first:
+                vehicle_rank = case(
+                    (Lot.category == _VEHICLE_FIRST_CATEGORY, 0),
+                    else_=1,
                 )
-            return stmt.order_by(func.random())
+                return stmt.order_by(vehicle_rank, random_key)
+            return stmt.order_by(random_key)
         return stmt.order_by(Lot.first_seen_at.desc())
 
     def _is_postgresql(self) -> bool:
@@ -223,7 +291,7 @@ class LotService:
     ) -> dict[str, Any]:
         """Формирует словарь LotShort из ORM-объекта."""
         images = lot.images or []
-        thumbnail = images[0] if images else None
+        remote_thumb = str(images[0]) if images else None
         return {
             "id": lot.id,
             "source": lot.source,
@@ -233,7 +301,8 @@ class LotService:
             "region_name": region_name,
             "price": self._price_str(lot.price),
             "auction_date": lot.auction_date,
-            "thumbnail": thumbnail,
+            "thumbnail": resolve_feed_thumbnail(remote_thumb),
+            "thumbnail_source": remote_thumb,
             "is_favorite": is_favorite,
         }
 
@@ -248,7 +317,12 @@ class LotService:
                 "description": lot.description,
                 "price_step": self._price_str(lot.price_step),
                 "source_url": lot.source_url,
-                "images": [str(img) for img in images],
+                "images": [
+                    public_api_image_url(str(img), variant="full")
+                    if is_allowed_image_url(str(img))
+                    else str(img)
+                    for img in images
+                ],
                 "status": lot.status,
                 "published_at": lot.published_at,
                 "updated_at": lot.updated_at,

@@ -221,13 +221,6 @@
     background-color: var(--color-surface-muted);
     object-fit: cover;
     display: block;
-    opacity: 0;
-    transition: opacity var(--t-med);
-}
-
-.lot-card-thumb.is-loaded,
-.lot-card-thumb.is-error {
-    opacity: 1;
 }
 
 .lot-card-thumb.placeholder {

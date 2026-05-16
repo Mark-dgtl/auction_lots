@@ -60,6 +60,7 @@ services:
     # Живые правки в `frontend/` без пересборки образа (nginx читает с диска хоста).
     volumes:
       - ./frontend:/usr/share/nginx/html:ro
+      - ./data/lot_images:/var/cache/lot_images:ro
     ports:
       - "8080:80"
     depends_on:

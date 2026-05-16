@@ -11,7 +11,11 @@ from sqlalchemy import select
 from app.core.config import settings
 from app.db.session import async_session_maker
 from app.models.lot import Lot
-from app.services.media_proxy import prefetch_image_url
+from app.services.media_proxy import (
+    ensure_thumbnail,
+    is_image_cached,
+    prefetch_image_url,
+)
 
 logger = logging.getLogger("app.media.prefetch")
 
@@ -114,6 +118,9 @@ async def warm_all_lot_images() -> None:
                     batch_urls.extend(str(u) for u in images)
 
             ok, fail = await prefetch_urls(batch_urls)
+            for url in batch_urls:
+                if is_image_cached(url):
+                    ensure_thumbnail(url)
             total_ok += ok
             total_fail += fail
             lots_done += len(rows)
