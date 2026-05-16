@@ -17,8 +17,13 @@ import {
     buildQuery,
 } from "../utils.js";
 
+function headerActiveForCabinet() {
+    const tab = (location.hash || "#profile").replace("#", "");
+    return tab === "favorites" ? "favorites" : "cabinet";
+}
+
 async function boot() {
-    await renderHeader("cabinet");
+    await renderHeader(headerActiveForCabinet());
     renderFooter();
 
     const user = await getCurrentUser();
@@ -44,6 +49,15 @@ async function boot() {
         tabs.forEach((b) => b.classList.toggle("active", b.dataset.tab === name));
         for (const [k, el] of Object.entries(sections)) {
             el.classList.toggle("hidden", k !== name);
+        }
+        const mainNav = document.querySelector(".main-nav");
+        if (mainNav) {
+            const headerPage = name === "favorites" ? "favorites" : "cabinet";
+            mainNav
+                .querySelectorAll('a[data-page="favorites"], a[data-page="cabinet"]')
+                .forEach((a) => {
+                    a.classList.toggle("active", a.dataset.page === headerPage);
+                });
         }
         if (name === "favorites") loadFavorites();
         if (name === "filters") loadFilters();

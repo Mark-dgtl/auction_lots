@@ -36,9 +36,9 @@ export async function renderHeader(activePage) {
                 ${
                     user
                         ? `
-                    <a href="/cabinet.html" data-page="cabinet">Избранное</a>
+                    <a href="/cabinet.html#favorites" data-page="favorites">Избранное</a>
                     <a href="/notifications.html" data-page="notifications">Уведомления</a>
-                    <a href="/cabinet.html" data-page="cabinet" title="${escapeAttr(user.email)}">Кабинет</a>
+                    <a href="/cabinet.html#profile" data-page="cabinet" title="${escapeAttr(user.email)}">Кабинет</a>
                     <button type="button" class="btn btn-ghost btn-sm" data-act="logout">Выйти</button>
                 `
                         : `
@@ -53,7 +53,7 @@ export async function renderHeader(activePage) {
 
     if (activePage) {
         header.querySelectorAll("a[data-page]").forEach((a) => {
-            if (a.dataset.page === activePage) a.classList.add("active");
+            a.classList.toggle("active", a.dataset.page === activePage);
         });
     }
 
