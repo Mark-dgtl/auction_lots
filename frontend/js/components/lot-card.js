@@ -6,6 +6,7 @@
  */
 
 import { formatPrice, formatDate, escapeHtml } from "../utils.js";
+import { lotImageUrl } from "../media.js";
 
 const HEART_SVG = `
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -13,14 +14,17 @@ const HEART_SVG = `
     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
 </svg>`;
 
-export function renderLotCard(lot, { onFavorite } = {}) {
+export function renderLotCard(lot, { onFavorite, imagePriority } = {}) {
     const card = document.createElement("article");
     card.className = "lot-card";
     card.dataset.lotId = String(lot.id);
 
-    const thumb = lot.thumbnail
-        ? `<img class="lot-card-thumb" src="${escapeHtml(lot.thumbnail)}"
-                 alt="${escapeHtml(lot.title)}" loading="lazy">`
+    const thumbSrc = lot.thumbnail ? lotImageUrl(lot.thumbnail) : null;
+    const priorityAttr =
+        imagePriority === "high" ? ' fetchpriority="high"' : "";
+    const thumb = thumbSrc
+        ? `<img class="lot-card-thumb" src="${escapeHtml(thumbSrc)}"
+                 alt="${escapeHtml(lot.title)}" loading="lazy" decoding="async"${priorityAttr}>`
         : `<div class="lot-card-thumb placeholder">Нет фото</div>`;
 
     const favBtnHtml = onFavorite
@@ -53,6 +57,18 @@ export function renderLotCard(lot, { onFavorite } = {}) {
             </div>
         </div>
     `;
+
+    const img = card.querySelector(".lot-card-thumb[src]");
+    if (img) {
+        const markLoaded = () => img.classList.add("is-loaded");
+        if (img.complete) markLoaded();
+        else {
+            img.addEventListener("load", markLoaded, { once: true });
+            img.addEventListener("error", () => img.classList.add("is-error"), {
+                once: true,
+            });
+        }
+    }
 
     if (onFavorite) {
         const btn = card.querySelector(".favorite-btn");

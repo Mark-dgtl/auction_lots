@@ -28,8 +28,10 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./parser:/app/parser
+      - ./data/lot_images:/app/data/lot_images
     environment:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      MEDIA_CACHE_DIR: /app/data/lot_images
     depends_on:
       db:
         condition: service_healthy

@@ -16,10 +16,13 @@ import { qs, buildQuery, readQuery, writeQuery } from "../utils.js";
 
 const PAGE_SIZE = 20;
 
+const SHUFFLE_SEED_KEY = "search_shuffle_seed";
+
 let state = {
     filters: {},
     page: 1,
-    sort: "date_desc",
+    sort: "random",
+    shuffleSeed: null,
     user: null,
 };
 
@@ -32,12 +35,25 @@ async function boot() {
     const q = readQuery();
     state.filters = pickFilters(q);
     state.page = Math.max(1, parseInt(q.page || "1", 10));
-    state.sort = q.sort || "date_desc";
+    const filtersEmpty = !hasActiveFilters(state.filters);
+    if (q.sort) {
+        state.sort = q.sort;
+    } else {
+        state.sort = filtersEmpty ? "random" : "date_desc";
+    }
+    if (state.sort === "random") {
+        state.shuffleSeed = q.shuffle_seed || ensureShuffleSeed();
+    }
 
     const sortSel = qs("#sort-select");
     sortSel.value = state.sort;
     sortSel.addEventListener("change", () => {
         state.sort = sortSel.value;
+        if (state.sort === "random") {
+            state.shuffleSeed = ensureShuffleSeed(true);
+        } else {
+            state.shuffleSeed = null;
+        }
         state.page = 1;
         syncUrl();
         loadLots();
@@ -47,8 +63,14 @@ async function boot() {
         qs("#filters-root"),
         state.filters,
         (values) => {
+            const wasEmpty = !hasActiveFilters(state.filters);
+            const nowEmpty = !hasActiveFilters(values);
             state.filters = values;
             state.page = 1;
+            if (nowEmpty && !wasEmpty && state.sort === "date_desc") {
+                state.sort = "random";
+                state.shuffleSeed = ensureShuffleSeed(true);
+            }
             syncUrl();
             loadLots();
         },
@@ -75,12 +97,43 @@ function pickFilters(obj) {
     return out;
 }
 
+function hasActiveFilters(filters) {
+    return Object.keys(filters).length > 0;
+}
+
+function ensureShuffleSeed(forceNew = false) {
+    if (!forceNew) {
+        try {
+            const saved = sessionStorage.getItem(SHUFFLE_SEED_KEY);
+            if (saved) return saved;
+        } catch {
+            /* ignore */
+        }
+    }
+    const seed =
+        typeof crypto !== "undefined" && crypto.randomUUID
+            ? crypto.randomUUID().slice(0, 12)
+            : String(Date.now());
+    try {
+        sessionStorage.setItem(SHUFFLE_SEED_KEY, seed);
+    } catch {
+        /* ignore */
+    }
+    return seed;
+}
+
 function syncUrl() {
-    writeQuery({
+    const params = {
         ...state.filters,
-        sort: state.sort !== "date_desc" ? state.sort : "",
         page: state.page > 1 ? String(state.page) : "",
-    });
+    };
+    if (state.sort === "random") {
+        params.sort = "random";
+        if (state.shuffleSeed) params.shuffle_seed = state.shuffleSeed;
+    } else if (state.sort !== "date_desc") {
+        params.sort = state.sort;
+    }
+    writeQuery(params);
 }
 
 async function loadLots() {
@@ -93,15 +146,16 @@ async function loadLots() {
     grid.replaceChildren(renderLotSkeletons(8));
 
     try {
-        const resp = await api.get(
-            "/lots" +
-                buildQuery({
-                    ...state.filters,
-                    sort: state.sort,
-                    page: String(state.page),
-                    page_size: String(PAGE_SIZE),
-                }),
-        );
+        const query = {
+            ...state.filters,
+            sort: state.sort,
+            page: String(state.page),
+            page_size: String(PAGE_SIZE),
+        };
+        if (state.sort === "random" && state.shuffleSeed) {
+            query.shuffle_seed = state.shuffleSeed;
+        }
+        const resp = await api.get("/lots" + buildQuery(query));
         counter.textContent =
             resp.total > 0 ? `Найдено: ${resp.total}` : "";
 
@@ -115,13 +169,14 @@ async function loadLots() {
         }
 
         grid.innerHTML = "";
-        for (const lot of resp.items) {
+        resp.items.forEach((lot, i) => {
             grid.appendChild(
                 renderLotCard(lot, {
                     onFavorite: state.user ? handleFavorite : null,
+                    imagePriority: i < 6 ? "high" : undefined,
                 }),
             );
-        }
+        });
         renderPagination(
             pag,
             { total: resp.total, page: resp.page, pageSize: resp.page_size },

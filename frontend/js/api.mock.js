@@ -396,6 +396,7 @@ async function hLotsList(_m, _p, opts) {
     const dateFrom = q.date_from ? new Date(q.date_from).getTime() : null;
     const dateTo = q.date_to ? new Date(q.date_to).getTime() : null;
     const sort = q.sort || "date_desc";
+    const shuffleSeed = q.shuffle_seed || "0";
 
     let items = LOTS.slice();
     if (query) {
@@ -424,6 +425,16 @@ async function hLotsList(_m, _p, opts) {
         items.sort((a, b) => Number(a.price) - Number(b.price));
     } else if (sort === "price_desc") {
         items.sort((a, b) => Number(b.price) - Number(a.price));
+    } else if (sort === "random") {
+        const hash = (id) => {
+            const s = `${id}:${shuffleSeed}`;
+            let h = 0;
+            for (let i = 0; i < s.length; i += 1) {
+                h = (h * 31 + s.charCodeAt(i)) | 0;
+            }
+            return h;
+        };
+        items.sort((a, b) => hash(a.id) - hash(b.id));
     } else {
         items.sort(
             (a, b) =>

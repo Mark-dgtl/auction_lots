@@ -29,8 +29,13 @@ async def search_lots(
     date_to: Optional[datetime] = Query(None, description="Дата торгов до"),
     sort: str = Query(
         "date_desc",
-        pattern="^(date_desc|price_asc|price_desc)$",
+        pattern="^(date_desc|price_asc|price_desc|random)$",
         description="Сортировка",
+    ),
+    shuffle_seed: Optional[str] = Query(
+        None,
+        max_length=64,
+        description="Сид для sort=random (стабильная пагинация)",
     ),
     page: int = Query(1, ge=1, description="Номер страницы"),
     page_size: int = Query(20, ge=1, le=100, description="Размер страницы"),
@@ -51,6 +56,7 @@ async def search_lots(
         date_from=date_from,
         date_to=date_to,
         sort=sort,
+        shuffle_seed=shuffle_seed,
         page=page,
         page_size=page_size,
         user_id=user.id if user else None,

@@ -23,6 +23,10 @@ build/
 
 *.log
 
+# Кэш фото лотов (скачивается с площадок, в git не коммитим)
+data/lot_images/*
+!data/lot_images/.gitkeep
+
 .idea/
 .vscode/
 .cursor/

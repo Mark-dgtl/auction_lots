@@ -120,6 +120,28 @@ async def test_lot_is_favorite_for_auth_user(
     assert fav_items[0]["is_favorite"] is True
 
 
+async def test_lots_sort_random_stable(
+    client: AsyncClient, sample_lots: list[int]
+) -> None:
+    """sort=random с одним shuffle_seed даёт одинаковый порядок на разных страницах."""
+    resp = await client.get(
+        "/api/lots?sort=random&shuffle_seed=testseed&page=1&page_size=2"
+    )
+    assert resp.status_code == 200
+    ids_p1 = [i["id"] for i in resp.json()["items"]]
+
+    resp2 = await client.get(
+        "/api/lots?sort=random&shuffle_seed=testseed&page=1&page_size=2"
+    )
+    assert [i["id"] for i in resp2.json()["items"]] == ids_p1
+
+    resp3 = await client.get(
+        "/api/lots?sort=random&shuffle_seed=other&page=1&page_size=2"
+    )
+    assert resp3.status_code == 200
+    assert len(resp3.json()["items"]) >= 1
+
+
 async def test_lots_search_by_query(
     client: AsyncClient, sample_lots: list[int]
 ) -> None:

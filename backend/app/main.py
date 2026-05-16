@@ -50,6 +50,14 @@ async def lifespan(app: FastAPI):
     else:
         logger.info("Планировщик отключён (SCHEDULER_ENABLED=false)")
 
+    if settings.MEDIA_WARM_ON_STARTUP:
+        from app.services.media_prefetch import schedule_warm_all_lots
+
+        cache_dir = settings.resolved_media_cache_dir()
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        logger.info("Каталог кэша изображений: %s", cache_dir)
+        schedule_warm_all_lots(delay_seconds=settings.MEDIA_WARM_STARTUP_DELAY_SECONDS)
+
     yield
 
     if scheduler is not None:

@@ -12,8 +12,9 @@ from sqlalchemy.pool import StaticPool
 
 from app.core.config import settings
 
-# Отключаем планировщик во всех тестах — до импорта app
+# Отключаем планировщик и прогрев фото во всех тестах — до импорта app
 settings.SCHEDULER_ENABLED = False
+settings.MEDIA_WARM_ON_STARTUP = False
 
 from app.db.base import Base
 from app.db.session import get_db

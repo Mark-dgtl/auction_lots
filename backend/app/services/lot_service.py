@@ -1,11 +1,12 @@
 """Сервис поиска и получения лотов."""
 
+import hashlib
 import logging
 from datetime import datetime
 from decimal import Decimal
 from typing import Any, Optional
 
-from sqlalchemy import func, select
+from sqlalchemy import String, case, cast, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.errors import NotFound
@@ -15,7 +16,7 @@ from app.models.region import Region
 
 logger = logging.getLogger("app.lots")
 
-VALID_SORTS = frozenset({"date_desc", "price_asc", "price_desc"})
+VALID_SORTS = frozenset({"date_desc", "price_asc", "price_desc", "random"})
 
 
 class LotService:
@@ -39,6 +40,7 @@ class LotService:
         date_from: Optional[datetime] = None,
         date_to: Optional[datetime] = None,
         sort: str = "date_desc",
+        shuffle_seed: Optional[str] = None,
         page: int = 1,
         page_size: int = 20,
         user_id: Optional[int] = None,
@@ -56,7 +58,8 @@ class LotService:
             price_to: Верхняя граница цены.
             date_from: Начало диапазона auction_date.
             date_to: Конец диапазона auction_date.
-            sort: Сортировка (date_desc | price_asc | price_desc).
+            sort: Сортировка (date_desc | price_asc | price_desc | random).
+            shuffle_seed: Сид для random (стабильный порядок между страницами).
             page: Номер страницы (с 1).
             page_size: Размер страницы (1–100).
             user_id: ID пользователя для определения is_favorite.
@@ -95,15 +98,16 @@ class LotService:
         count_stmt = select(func.count()).select_from(stmt.subquery())
         total = (await self._db.scalar(count_stmt)) or 0
 
-        # Сортировка
-        if sort == "price_asc":
-            stmt = stmt.order_by(Lot.price.asc().nulls_last())
-        elif sort == "price_desc":
-            stmt = stmt.order_by(Lot.price.desc().nulls_last())
+        if sort == "random" and not self._is_postgresql():
+            stmt = await self._apply_random_sqlite(
+                stmt, shuffle_seed, page, page_size
+            )
+            if stmt is None:
+                return [], total
         else:
-            stmt = stmt.order_by(Lot.first_seen_at.desc())
+            stmt = self._apply_sort(stmt, sort, shuffle_seed)
+            stmt = stmt.offset((page - 1) * page_size).limit(page_size)
 
-        stmt = stmt.offset((page - 1) * page_size).limit(page_size)
         rows = (await self._db.execute(stmt)).all()
 
         # Получаем избранные лоты пользователя
@@ -159,6 +163,45 @@ class LotService:
             is_fav = fav is not None
 
         return self._lot_to_detail(lot, region_name, is_fav)
+
+    async def _apply_random_sqlite(
+        self,
+        stmt,
+        shuffle_seed: Optional[str],
+        page: int,
+        page_size: int,
+    ):
+        """Стабильный random для SQLite (тесты): сортировка id по md5(id:seed)."""
+        seed = (shuffle_seed or "0")[:64]
+        sub = stmt.subquery()
+        id_result = await self._db.scalars(select(sub.c.id))
+        ids = sorted(
+            id_result.all(),
+            key=lambda i: hashlib.md5(f"{i}:{seed}".encode()).hexdigest(),
+        )
+        page_ids = ids[(page - 1) * page_size : page * page_size]
+        if not page_ids:
+            return None
+        order_case = case(
+            {lot_id: idx for idx, lot_id in enumerate(page_ids)},
+            value=Lot.id,
+        )
+        return stmt.where(Lot.id.in_(page_ids)).order_by(order_case)
+
+    def _apply_sort(self, stmt, sort: str, shuffle_seed: Optional[str]):
+        """Применяет ORDER BY; random — псевдослучайный порядок, стабильный по seed."""
+        if sort == "price_asc":
+            return stmt.order_by(Lot.price.asc().nulls_last())
+        if sort == "price_desc":
+            return stmt.order_by(Lot.price.desc().nulls_last())
+        if sort == "random":
+            seed = (shuffle_seed or "0")[:64]
+            if self._is_postgresql():
+                return stmt.order_by(
+                    func.md5(func.concat(cast(Lot.id, String), seed))
+                )
+            return stmt.order_by(func.random())
+        return stmt.order_by(Lot.first_seen_at.desc())
 
     def _is_postgresql(self) -> bool:
         """Определяет, используется ли PostgreSQL в текущей сессии."""

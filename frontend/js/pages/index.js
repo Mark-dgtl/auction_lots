@@ -32,10 +32,10 @@ async function boot() {
     grid.replaceChildren(renderLotSkeletons(6));
 
     try {
-        const user = await getCurrentUser();
-        const resp = await api.get(
-            "/lots" + buildQuery({ sort: "date_desc", page_size: 10 }),
-        );
+        const [user, resp] = await Promise.all([
+            getCurrentUser(),
+            api.get("/lots" + buildQuery({ sort: "date_desc", page_size: 10 })),
+        ]);
         if (!resp.items || resp.items.length === 0) {
             grid.innerHTML = `
                 <div class="empty-state">
@@ -45,13 +45,14 @@ async function boot() {
             return;
         }
         grid.innerHTML = "";
-        for (const lot of resp.items) {
+        resp.items.forEach((lot, i) => {
             grid.appendChild(
                 renderLotCard(lot, {
                     onFavorite: user ? handleFavorite : null,
+                    imagePriority: i < 4 ? "high" : undefined,
                 }),
             );
-        }
+        });
     } catch (e) {
         grid.innerHTML = `
             <div class="error-banner">Не удалось загрузить лоты: ${escapeError(e)}</div>`;

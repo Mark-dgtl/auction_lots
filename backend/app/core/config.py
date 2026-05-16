@@ -3,7 +3,12 @@
 Читает все переменные из .env-файла или окружения.
 """
 
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Корень репозитория (родитель каталога backend/).
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
 class Settings(BaseSettings):
@@ -47,6 +52,21 @@ class Settings(BaseSettings):
     ADMIN_LOG_BUFFER_SIZE: int = 2000
     ADMIN_BOT_OFFLINE_THRESHOLD_SECONDS: int = 120
     APP_VERSION: str = "1.0.0"
+
+    # Локальный кэш фото лотов (по умолчанию <корень проекта>/data/lot_images)
+    MEDIA_CACHE_DIR: str = "data/lot_images"
+    MEDIA_PROXY_TIMEOUT_SECONDS: float = 25.0
+    MEDIA_PREFETCH_CONCURRENCY: int = 6
+    MEDIA_WARM_ON_STARTUP: bool = True
+    MEDIA_WARM_STARTUP_DELAY_SECONDS: float = 20.0
+    MEDIA_WARM_BATCH_SIZE: int = 80
+
+    def resolved_media_cache_dir(self) -> Path:
+        """Абсолютный путь к каталогу кэша изображений."""
+        p = Path(self.MEDIA_CACHE_DIR)
+        if p.is_absolute():
+            return p
+        return (_REPO_ROOT / p).resolve()
 
 
 settings = Settings()

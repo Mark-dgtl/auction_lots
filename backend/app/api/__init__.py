@@ -11,6 +11,7 @@ from app.api.favorites import router as favorites_router
 from app.api.filters import router as filters_router
 from app.api.internal import router as internal_router
 from app.api.lots import router as lots_router
+from app.api.media import router as media_router
 from app.api.meta import router as meta_router
 from app.api.notifications import router as notifications_router
 from app.api.telegram import router as telegram_router
@@ -22,6 +23,7 @@ api_router = APIRouter(prefix="/api")
 
 api_router.include_router(auth_router)
 api_router.include_router(lots_router)
+api_router.include_router(media_router)
 api_router.include_router(favorites_router)
 api_router.include_router(filters_router)
 api_router.include_router(telegram_router)

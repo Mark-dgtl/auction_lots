@@ -72,3 +72,11 @@ class RequestTimeout(AppError):
     code = "SQL_TIMEOUT"
     status_code = 408
     default_message = "Превышено время выполнения запроса"
+
+
+class UpstreamError(AppError):
+    """Ошибка внешнего сервиса (прокси, парсер и т.п.)."""
+
+    code = "UPSTREAM_ERROR"
+    status_code = 502
+    default_message = "Ошибка внешнего источника"

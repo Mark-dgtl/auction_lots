@@ -16,6 +16,7 @@ import {
     formatDateTime,
     escapeHtml,
 } from "../utils.js";
+import { lotImageUrl } from "../media.js";
 
 async function boot() {
     document.body.classList.add("page-lot");
@@ -72,7 +73,7 @@ function renderNotFound(msg) {
 }
 
 function renderLot(lot, user) {
-    const images = Array.isArray(lot.images) ? lot.images : [];
+    const images = (Array.isArray(lot.images) ? lot.images : []).map(lotImageUrl);
     qs("#lot-root").innerHTML = `
         <div class="lot-layout">
             <div>

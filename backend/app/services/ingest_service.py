@@ -17,6 +17,7 @@ from parser.base import CATEGORY_SLUGS, BaseSource, ParsedLot
 from app.models.lot import Lot
 from app.models.parser_run import ParserRun
 from app.models.region import Region
+from app.services.media_prefetch import schedule_prefetch_urls
 
 logger = logging.getLogger("app.ingest")
 
@@ -104,6 +105,8 @@ class IngestService:
             self._db.add(new_lot)
             await self._db.commit()
             logger.info("Добавлен новый лот: %s/%s", lot.source, lot.source_lot_id)
+            if images:
+                schedule_prefetch_urls(images)
             return "new"
 
         existing_images = existing.images or []
@@ -133,6 +136,8 @@ class IngestService:
             existing.updated_at = datetime.now(timezone.utc)
             await self._db.commit()
             logger.info("Обновлён лот: %s/%s", lot.source, lot.source_lot_id)
+            if images:
+                schedule_prefetch_urls(images)
             return "updated"
 
         logger.debug("Лот без изменений: %s/%s", lot.source, lot.source_lot_id)
